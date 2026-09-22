@@ -152,19 +152,19 @@
                 <h2 class="section-title">Daily Store Checklist</h2>
                 <div>
                     <label class="checklist-item">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" class="task-check" data-id="task-1">
                         <span>Morning stock replenishment & sizing check</span>
                     </label>
                     <label class="checklist-item">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" class="task-check" data-id="task-2">
                         <span>Window display & mannequin styling inspection</span>
                     </label>
                     <label class="checklist-item">
-                        <input type="checkbox">
+                        <input type="checkbox" class="task-check" data-id="task-3">
                         <span>Interstore transfer verification (Pending 3 items)</span>
                     </label>
                     <label class="checklist-item">
-                        <input type="checkbox">
+                        <input type="checkbox" class="task-check" data-id="task-4">
                         <span>End-of-day till reconciliation & cash summary</span>
                     </label>
                 </div>
@@ -173,8 +173,27 @@
     </main>
 
     <script>
+        // System Date
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', options);
+
+        // Checklist LocalStorage Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkboxes = document.querySelectorAll(".task-check");
+            
+            checkboxes.forEach((checkbox) => {
+                const taskId = checkbox.getAttribute("data-id");
+                const savedState = localStorage.getItem(taskId);
+                
+                if (savedState !== null) {
+                    checkbox.checked = savedState === "true";
+                }
+
+                checkbox.addEventListener("change", (e) => {
+                    localStorage.setItem(taskId, e.target.checked);
+                });
+            });
+        });
     </script>
 </body>
 </html>
